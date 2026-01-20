@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de Huella de Carbono - Amazonía (Con IA)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Markdown Parser -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #064e3b 0%, #059669 100%); }
+        
+        /* Animaciones para el asistente IA */
+        .ai-float { animation: float 3s ease-in-out infinite; }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .typing-dot {
+            animation: typing 1.4s infinite ease-in-out both;
+        }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 relative">
+
+    <!-- Navbar -->
+    <nav class="bg-white shadow-sm sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <i class="fa-solid fa-leaf text-emerald-600 text-2xl mr-3"></i>
+                    <span class="font-bold text-xl tracking-tight text-slate-800">EcoReport <span class="text-emerald-600">Amazonía</span></span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-slate-500 bg-slate-100 px-3 py-1 rounded-full hidden sm:inline-block"><i class="fa-regular fa-calendar mr-2"></i>7 Días de Itinerario</span>
+                    <span class="text-sm text-slate-500 bg-slate-100 px-3 py-1 rounded-full hidden sm:inline-block"><i class="fa-solid fa-users mr-2"></i>15 Pax + 2 Guías</span>
+                    <button onclick="toggleAIMode()" class="bg-gradient-to-r from-purple-600 to-blue-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-md hover:shadow-lg transition transform hover:scale-105 flex items-center">
+                        <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> Asistente IA
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="gradient-bg text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-3xl font-bold mb-2">Reporte de Impacto Ambiental</h1>
+            <p class="text-emerald-100 text-lg">Análisis de ciclo de vida del viaje turístico: Santiago - La Paz - Rurrenabaque - Madidi.</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 pb-20">
+        
+        <!-- KPI Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <!-- Total Emissions -->
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-emerald-500 transform hover:-translate-y-1 transition duration-300">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Huella Total</p>
+                        <h3 class="text-3xl font-bold text-slate-800 mt-1">13.93 <span class="text-lg font-normal text-slate-500">tCO2e</span></h3>
+                    </div>
+                    <div class="p-2 bg-emerald-100 rounded-lg text-emerald-600">
+                        <i class="fa-solid fa-cloud-arrow-up text-xl"></i>
+                    </div>
+                </div>
+                <p class="text-sm text-slate-500 mt-4">Equivalente a 13,933 kg emitidos en total.</p>
+            </div>
+
+            <!-- Per Person -->
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500 transform hover:-translate-y-1 transition duration-300">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Por Pasajero</p>
+                        <h3 class="text-3xl font-bold text-slate-800 mt-1">0.82 <span class="text-lg font-normal text-slate-500">tCO2e</span></h3>
+                    </div>
+                    <div class="p-2 bg-blue-100 rounded-lg text-blue-600">
+                        <i class="fa-solid fa-person-walking-luggage text-xl"></i>
+                    </div>
+                </div>
+                <p class="text-sm text-slate-500 mt-4">Promedio por turista (17 personas en total).</p>
+            </div>
+
+            <!-- Alcance 3 Highlight -->
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-amber-500 transform hover:-translate-y-1 transition duration-300">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Alcance 3 (Indirecto)</p>
+                        <h3 class="text-3xl font-bold text-slate-800 mt-1">88.5%</h3>
+                    </div>
+                    <div class="p-2 bg-amber-100 rounded-lg text-amber-600">
+                        <i class="fa-solid fa-plane-departure text-xl"></i>
+                    </div>
+                </div>
+                <p class="text-sm text-slate-500 mt-4">Principalmente vuelos internacionales y logística.</p>
+            </div>
+
+            <!-- Staff Impact -->
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-purple-500 transform hover:-translate-y-1 transition duration-300">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Huella Trabajadores</p>
+                        <h3 class="text-3xl font-bold text-slate-800 mt-1">1.64 <span class="text-lg font-normal text-slate-500">tCO2e</span></h3>
+                    </div>
+                    <div class="p-2 bg-purple-100 rounded-lg text-purple-600">
+                        <i class="fa-solid fa-id-card-clip text-xl"></i>
+                    </div>
+                </div>
+                <p class="text-sm text-slate-500 mt-4">Impacto de los 2 Guías y staff operativo.</p>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+            
+            <!-- Daily Emissions Chart -->
+            <div class="bg-white rounded-xl shadow-lg p-6 lg:col-span-2">
+                <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                    <i class="fa-solid fa-chart-column mr-2 text-emerald-500"></i> Emisiones Diarias (kg CO2e)
+                </h3>
+                <div class="relative h-72">
+                    <canvas id="dailyChart"></canvas>
+                </div>
+                <div class="mt-4 text-sm text-slate-500 bg-slate-50 p-3 rounded-lg border border-slate-200">
+                    <p><i class="fa-solid fa-circle-info text-blue-400 mr-2"></i><strong>Insight:</strong> Los Días 1 y 7 (Vuelos SCL-LPB) representan los picos más altos. Los días en la Amazonía (3, 4, 5) tienen la huella más baja.</p>
+                </div>
+            </div>
+
+            <!-- Scope Distribution Chart -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                    <i class="fa-solid fa-chart-pie mr-2 text-emerald-500"></i> Distribución por Alcance
+                </h3>
+                <div class="relative h-64 flex justify-center">
+                    <canvas id="scopeChart"></canvas>
+                </div>
+                <div class="mt-6 space-y-3">
+                    <div class="flex items-center justify-between text-sm">
+                        <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-emerald-500 mr-2"></span>Alcance 1 (Directo)</div>
+                        <span class="font-semibold">538 kg</span>
+                    </div>
+                    <div class="flex items-center justify-between text-sm">
+                        <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-blue-500 mr-2"></span>Alcance 2 (Energía)</div>
+                        <span class="font-semibold">1,068 kg</span>
+                    </div>
+                    <div class="flex items-center justify-between text-sm">
+                        <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-amber-500 mr-2"></span>Alcance 3 (Cadena Valor)</div>
+                        <span class="font-semibold">12,326 kg</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Worker Impact Detail Section -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-12">
+            <h3 class="text-lg font-bold text-slate-800 mb-6 flex items-center">
+                <i class="fa-solid fa-briefcase mr-2 text-purple-500"></i> Detalle de Emisiones: Trabajadores (Staff & Guías)
+            </h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <p class="text-slate-600 mb-4">
+                        El cálculo de emisiones para trabajadores incluye el impacto de los **2 guías acompañantes** durante todo el itinerario, más el personal de soporte en terreno (conductores, staff de hotel).
+                    </p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 mt-1">
+                                <i class="fa-solid fa-plane"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-sm font-bold text-slate-800">Transporte de Staff</h4>
+                                <p class="text-xs text-slate-500">Los guías viajan junto al grupo en los vuelos SCL-LPB y LPB-RBQ, representando el 11.7% de la huella total de transporte aéreo.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 mt-1">
+                                <i class="fa-solid fa-utensils"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-sm font-bold text-slate-800">Alimentación y Alojamiento</h4>
+                                <p class="text-xs text-slate-500">Consumo energético y residuos generados por el staff en hoteles y eco-lodges durante los 7 días.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-slate-50 p-6 rounded-lg border border-slate-200">
+                     <h4 class="text-sm font-semibold text-slate-700 mb-4 uppercase">Desglose Estimado Staff</h4>
+                     <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between text-xs mb-1">
+                                <span>Vuelos y Traslados (Guías)</span>
+                                <span class="font-bold">1,450 kg CO2e</span>
+                            </div>
+                            <div class="w-full bg-slate-200 rounded-full h-2">
+                                <div class="bg-purple-500 h-2 rounded-full" style="width: 88%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs mb-1">
+                                <span>Hotelería y Energía</span>
+                                <span class="font-bold">125 kg CO2e</span>
+                            </div>
+                            <div class="w-full bg-slate-200 rounded-full h-2">
+                                <div class="bg-purple-400 h-2 rounded-full" style="width: 8%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs mb-1">
+                                <span>Alimentación y Residuos</span>
+                                <span class="font-bold">65 kg CO2e</span>
+                            </div>
+                            <div class="w-full bg-slate-200 rounded-full h-2">
+                                <div class="bg-purple-300 h-2 rounded-full" style="width: 4%"></div>
+                            </div>
+                        </div>
+                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="border-t border-slate-200 py-8 text-center">
+            <p class="text-slate-400 text-sm">© 2024 Agencia de Viajes Sustentable | Basado en metodología GHG Protocol & HuellaChile.</p>
+        </div>
+
+    </div>
+
+    <!-- AI Floating Action Button -->
+    <button onclick="toggleAIMode()" class="fixed bottom-8 right-8 bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform z-50 ai-float group">
+        <span class="absolute -top-2 -right-2 flex h-4 w-4">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-4 w-4 bg-purple-500"></span>
+        </span>
+        <i class="fa-solid fa-robot text-2xl"></i>
+        <div class="absolute bottom-full right-0 mb-3 hidden group-hover:block w-48 bg-gray-900 text-white text-xs rounded py-2 px-3">
+            ¡Analiza tus datos con IA!
+        </div>
+    </button>
+
+    <!-- AI Assistant Modal -->
+    <div id="aiModal" class="fixed inset-0 z-50 hidden bg-slate-900/50 backdrop-blur-sm flex justify-center items-center">
+        <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] mx-4 animate-fade-in-up">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-purple-600 to-indigo-600 p-4 flex justify-between items-center text-white">
+                <div class="flex items-center">
+                    <i class="fa-solid fa-wand-magic-sparkles mr-2 text-yellow-300"></i>
+                    <h3 class="font-bold text-lg">Asistente IA EcoReport</h3>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <button onclick="toggleSettings()" class="hover:bg-white/20 rounded-full p-2 transition text-sm" title="Configurar API Key">
+                        <i class="fa-solid fa-gear"></i>
+                    </button>
+                    <button onclick="toggleAIMode()" class="hover:bg-white/20 rounded-full p-2 transition">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- API Key Warning / Settings -->
+            <div id="apiKeySection" class="bg-amber-50 border-b border-amber-200 p-4 text-sm hidden">
+                <div class="flex items-start mb-2">
+                    <i class="fa-solid fa-triangle-exclamation text-amber-600 mt-1 mr-2"></i>
+                    <div>
+                        <p class="font-bold text-amber-800">Se requiere API Key</p>
+                        <p class="text-amber-700">Para usar la IA, necesitas una llave gratuita de Google Gemini.</p>
+                        <a href="https://aistudio.google.com/app/apikey" target="_blank" class="underline text-amber-900 font-semibold hover:text-amber-600">Obtener API Key aquí</a>
+                    </div>
+                </div>
+                <div class="flex mt-2">
+                    <input type="password" id="apiKeyInput" placeholder="Pega tu API Key (empezando con AIza...)" class="flex-1 border border-amber-300 rounded-l-md px-3 py-1 focus:outline-none focus:ring-1 focus:ring-amber-500">
+                    <button onclick="saveApiKey()" class="bg-amber-600 text-white px-4 py-1 rounded-r-md hover:bg-amber-700 font-medium">Guardar</button>
+                </div>
+            </div>
+
+            <!-- Chat Area -->
+            <div id="chatContainer" class="flex-1 p-6 overflow-y-auto bg-slate-50 space-y-4">
+                <!-- Initial Message -->
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 bg-purple-100 rounded-full p-2 mr-3">
+                        <i class="fa-solid fa-robot text-purple-600"></i>
+                    </div>
+                    <div class="bg-white p-4 rounded-2xl rounded-tl-none shadow-sm border border-slate-200 text-sm text-slate-700">
+                        <p class="font-semibold mb-1">¡Hola! Soy tu asistente de sostenibilidad powered by Gemini ✨</p>
+                        <p>Tengo acceso a todos los datos de tu viaje a la Amazonía (Huella total: 13.93t). ¿En qué puedo ayudarte hoy?</p>
+                        <div class="mt-3 flex flex-wrap gap-2">
+                            <button onclick="askGemini('Genera un reporte ejecutivo corto resumiendo los hallazgos clave de este viaje.')" class="bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs px-3 py-1 rounded-full border border-purple-200 transition">📝 Resumir Reporte</button>
+                            <button onclick="askGemini('¿Por qué el Alcance 3 es tan alto y cómo puedo reducirlo?')" class="bg-amber-50 hover:bg-amber-100 text-amber-700 text-xs px-3 py-1 rounded-full border border-amber-200 transition">✈️ Analizar Alcance 3</button>
+                            <button onclick="askGemini('Dame 3 consejos concretos para compensar la huella de este viaje específico.')" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs px-3 py-1 rounded-full border border-emerald-200 transition">🌱 Consejos de Mitigación</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="p-4 bg-white border-t border-slate-200">
+                <div class="flex items-center space-x-2">
+                    <input type="text" id="userInput" placeholder="Pregunta sobre tus emisiones..." class="flex-1 border border-slate-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm" onkeypress="handleKeyPress(event)">
+                    <button onclick="handleUserQuery()" class="bg-purple-600 hover:bg-purple-700 text-white rounded-full p-3 w-12 h-12 flex items-center justify-center transition shadow-md disabled:opacity-50 disabled:cursor-not-allowed" id="sendBtn">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+                <p class="text-center text-xs text-slate-400 mt-2">Powered by Gemini 2.5 Flash</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts for Charts & AI -->
+    <script>
+        // --- DATA CONTEXT FOR AI ---
+        // This object represents the "Knowledge Base" the AI has access to.
+        const tripData = {
+            total_footprint: "13.93 toneladas CO2e",
+            per_passenger: "0.82 toneladas CO2e",
+            pax_count: 17, // 15 travelers + 2 guides
+            scope_breakdown: {
+                scope_1_direct: "538 kg (3.9%) - Botes, Vans",
+                scope_2_energy: "1,068 kg (7.7%) - Electricidad Hoteles",
+                scope_3_indirect: "12,326 kg (88.5%) - Vuelos, Logística"
+            },
+            daily_emissions: {
+                high_days: ["Día 1 (Vuelo Ida)", "Día 7 (Vuelo Regreso)"],
+                low_days: ["Día 3", "Día 4 (Selva - bajo impacto)"]
+            },
+            staff_impact: "1.64 toneladas (11.7% del total aprox)",
+            location: "Amazonía (Madidi - Rurrenabaque - La Paz)",
+            recommendation_plan: "Plan Nacional de Adaptación Turismo Chile (Sello S, Índice Saturación)"
+        };
+
+        // --- GEMINI API INTEGRATION ---
+        // Recuperar key guardada
+        let apiKey = localStorage.getItem('gemini_api_key') || ""; 
+
+        // Mostrar alerta si no hay key al cargar
+        document.addEventListener('DOMContentLoaded', () => {
+            if(!apiKey) {
+                document.getElementById('apiKeySection').classList.remove('hidden');
+            } else {
+                document.getElementById('apiKeyInput').value = apiKey;
+            }
+        });
+
+        function toggleSettings() {
+            const section = document.getElementById('apiKeySection');
+            section.classList.toggle('hidden');
+        }
+
+        function saveApiKey() {
+            const input = document.getElementById('apiKeyInput');
+            const key = input.value.trim();
+            if(key) {
+                localStorage.setItem('gemini_api_key', key);
+                apiKey = key;
+                document.getElementById('apiKeySection').classList.add('hidden');
+                addMessageToChat('ai', "¡Perfecto! API Key guardada. Ahora puedes chatear conmigo.");
+            } else {
+                alert("Por favor ingresa una clave válida.");
+            }
+        }
+
+        async function callGeminiAPI(userPrompt) {
+            if (!apiKey) {
+                document.getElementById('apiKeySection').classList.remove('hidden');
+                return "⚠️ **Falta Configuración**: Por favor ingresa tu Google Gemini API Key en el panel de arriba (icono de engranaje) para que pueda funcionar. Es gratis obtener una.";
+            }
+
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+            const systemContext = `
+                Actúa como un experto consultor en Sostenibilidad Turística y Huella de Carbono.
+                Estás integrado en un dashboard interactivo analizando un viaje a la Amazonía (Bolivia) de 7 días.
+                
+                DATOS REALES DEL VIAJE:
+                - Huella Total: ${tripData.total_footprint}
+                - Huella por Pax: ${tripData.per_passenger} (${tripData.pax_count} personas)
+                - Desglose: Alcance 3 es el ${tripData.scope_breakdown.scope_3_indirect}, Alcance 1 es ${tripData.scope_breakdown.scope_1_direct}, Alcance 2 es ${tripData.scope_breakdown.scope_2_energy}.
+                - Días Críticos: ${tripData.daily_emissions.high_days.join(", ")}.
+                - Días Bajos: ${tripData.daily_emissions.low_days.join(", ")}.
+                - Impacto Staff: ${tripData.staff_impact}.
+                
+                INSTRUCCIONES:
+                1. Responde de manera breve, profesional pero amigable.
+                2. Usa formato Markdown para listas y negritas.
+                3. Basa tus respuestas ESTRICTAMENTE en los datos proporcionados.
+                4. Si preguntan por soluciones, sugiere compensación de vuelos y preferencia por proveedores con Sello S.
+                5. Idioma: Español.
+            `;
+
+            const payload = {
+                contents: [{
+                    parts: [{ text: systemContext + "\n\nPregunta del usuario: " + userPrompt }]
+                }]
+            };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    if(errorData.error && errorData.error.status === 'INVALID_ARGUMENT') {
+                        return "❌ **Error de API Key**: La clave ingresada parece inválida. Por favor verifica que la copiaste correctamente en Configuración.";
+                    }
+                    throw new Error(errorData.error?.message || response.statusText);
+                }
+
+                const data = await response.json();
+                return data.candidates[0].content.parts[0].text;
+            } catch (error) {
+                console.error("Error Gemini:", error);
+                return `❌ **Error de Conexión**: No pude conectar con Google. Verifica tu conexión a internet o tu API Key.\n\nDetalle: ${error.message}`;
+            }
+        }
+
+        // --- UI FUNCTIONS ---
+
+        function toggleAIMode() {
+            const modal = document.getElementById('aiModal');
+            modal.classList.toggle('hidden');
+            if (!modal.classList.contains('hidden')) {
+                document.getElementById('userInput').focus();
+            }
+        }
+
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') handleUserQuery();
+        }
+
+        async function handleUserQuery() {
+            const input = document.getElementById('userInput');
+            const prompt = input.value.trim();
+            if (!prompt) return;
+
+            // Clear input
+            input.value = '';
+            
+            // Add User Message
+            addMessageToChat('user', prompt);
+            
+            // Show Typing Indicator
+            const typingId = addTypingIndicator();
+
+            // Call API
+            const response = await callGeminiAPI(prompt);
+
+            // Remove Typing Indicator
+            const typingEl = document.getElementById(typingId);
+            if(typingEl) typingEl.remove();
+
+            // Add AI Message
+            addMessageToChat('ai', response);
+        }
+
+        // Helper function for preset buttons
+        function askGemini(presetPrompt) {
+            addMessageToChat('user', presetPrompt);
+            const typingId = addTypingIndicator();
+            callGeminiAPI(presetPrompt).then(response => {
+                const typingEl = document.getElementById(typingId);
+                if(typingEl) typingEl.remove();
+                addMessageToChat('ai', response);
+            });
+        }
+
+        function addMessageToChat(role, text) {
+            const container = document.getElementById('chatContainer');
+            const isUser = role === 'user';
+            
+            const html = `
+                <div class="flex items-start ${isUser ? 'justify-end' : ''} animate-fade-in">
+                    ${!isUser ? `<div class="flex-shrink-0 bg-purple-100 rounded-full p-2 mr-3"><i class="fa-solid fa-robot text-purple-600"></i></div>` : ''}
+                    <div class="${isUser ? 'bg-purple-600 text-white' : 'bg-white border border-slate-200 text-slate-700'} p-4 rounded-2xl ${isUser ? 'rounded-tr-none' : 'rounded-tl-none'} shadow-sm text-sm max-w-[85%]">
+                        <div class="prose ${isUser ? 'prose-invert' : ''} prose-sm max-w-none">
+                            ${marked.parse(text)}
+                        </div>
+                    </div>
+                    ${isUser ? `<div class="flex-shrink-0 bg-purple-600 rounded-full p-2 ml-3 text-white"><i class="fa-solid fa-user"></i></div>` : ''}
+                </div>
+            `;
+            
+            container.insertAdjacentHTML('beforeend', html);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function addTypingIndicator() {
+            const container = document.getElementById('chatContainer');
+            const id = 'typing-' + Date.now();
+            
+            const html = `
+                <div id="${id}" class="flex items-start">
+                    <div class="flex-shrink-0 bg-purple-100 rounded-full p-2 mr-3"><i class="fa-solid fa-robot text-purple-600"></i></div>
+                    <div class="bg-white p-4 rounded-2xl rounded-tl-none shadow-sm border border-slate-200 text-sm">
+                        <div class="flex space-x-1">
+                            <div class="w-2 h-2 bg-slate-400 rounded-full typing-dot"></div>
+                            <div class="w-2 h-2 bg-slate-400 rounded-full typing-dot"></div>
+                            <div class="w-2 h-2 bg-slate-400 rounded-full typing-dot"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', html);
+            container.scrollTop = container.scrollHeight;
+            return id;
+        }
+
+        // --- CHART CONFIGURATION (Existing) ---
+        // Based on TOTAL.csv and Alcance.csv
+        const dailyData = [4645, 2075, 355, 252, 672, 1800, 4065];
+        const dayLabels = ['Día 1: Vuelo/Llegada', 'Día 2: Viaje a Madidi', 'Día 3: Selva Profunda', 'Día 4: Actividades', 'Día 5: Retorno RBQ', 'Día 6: Vuelo a La Paz', 'Día 7: Regreso SCL'];
+        
+        // Based on Alcance.csv breakdown
+        const scopeData = [538, 1068, 12326]; 
+        const scopeLabels = ['Alcance 1 (Directo)', 'Alcance 2 (Energía)', 'Alcance 3 (Indirecto)'];
+
+        // 1. Daily Chart (Bar)
+        const ctxDaily = document.getElementById('dailyChart').getContext('2d');
+        new Chart(ctxDaily, {
+            type: 'bar',
+            data: {
+                labels: dayLabels,
+                datasets: [{
+                    label: 'Emisiones (kg CO2e)',
+                    data: dailyData,
+                    backgroundColor: [
+                        'rgba(245, 158, 11, 0.8)', // High (Flight)
+                        'rgba(59, 130, 246, 0.7)', // Medium
+                        'rgba(16, 185, 129, 0.8)', // Low (Jungle)
+                        'rgba(16, 185, 129, 0.8)', // Low (Jungle)
+                        'rgba(16, 185, 129, 0.8)', // Low (Jungle)
+                        'rgba(59, 130, 246, 0.7)', // Medium
+                        'rgba(245, 158, 11, 0.8)'  // High (Flight)
+                    ],
+                    borderRadius: 6,
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { borderDash: [2, 4], color: '#e2e8f0' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        // 2. Scope Chart (Doughnut)
+        const ctxScope = document.getElementById('scopeChart').getContext('2d');
+        new Chart(ctxScope, {
+            type: 'doughnut',
+            data: {
+                labels: scopeLabels,
+                datasets: [{
+                    data: scopeData,
+                    backgroundColor: [
+                        '#10b981', // Emerald (Alcance 1 - Directo/Controlado)
+                        '#3b82f6', // Blue (Alcance 2 - Energía)
+                        '#f59e0b'  // Amber (Alcance 3 - Vuelos/Terceros)
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { usePointStyle: true, padding: 20 }
+                    }
+                },
+                cutout: '70%'
+            }
+        });
+    </script>
+</body>
+</html>
